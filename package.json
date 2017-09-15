@@ -12,6 +12,7 @@
     "babel-runtime": "^6.20.0",
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.1",
+    "busboy": "^0.2.14",
     "express": "^4.15.4",
     "graphql": "^0.11.3",
     "graphql-loader": "^1.2.1",

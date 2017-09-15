@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor'
 export const typeDefs = `
                 # Defines a user type and its fields
                 type User {
+                  # Description for field
                    _id: String
                   emails: [Email]
                   profile: UserProfile

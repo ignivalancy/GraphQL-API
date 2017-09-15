@@ -5,6 +5,6 @@ import './main.html';
 
 Template.home.helpers({
     info() {
-        return JSON.stringify({ url: Meteor.absoluteUrl(), graphql: Meteor.absoluteUrl()+'graphql' });
+        return JSON.stringify({ base: Meteor.absoluteUrl(), graphql: Meteor.absoluteUrl()+'gql' });
     }
 });
