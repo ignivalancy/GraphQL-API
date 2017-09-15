@@ -1,4 +1,5 @@
 export default {
+
     dev: {
         smtpUser: 'e.life096@gmail.com',
         smtpPass: 'unitedcollege',
@@ -6,7 +7,7 @@ export default {
         smtpServer: 'smtp.gmail.com',
         mailFrom: "GraphQL"
     },
-    test: {
+    staging: {
         smtpUser: "",
         smtpPass: "", //'',
         smtpPort: 587, //25,

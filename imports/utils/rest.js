@@ -1,4 +1,5 @@
 export default {
+
     getRequestContents: (request) => {
         switch (request.method) {
             case "GET":
@@ -11,9 +12,11 @@ export default {
                 return _.omit(request.body, '__proto__');
         }
     },
+
     hasData: (data) => {
         return Object.keys(data).length > 0 ? true : false;
     },
+
     response: (response, data = 'success', statusCode = 200) => {
         statusCode = statusCode; // (statusCode === 403) ? 200 : statusCode;
         // ----------------------------------------------------
@@ -21,7 +24,9 @@ export default {
         response.statusCode = statusCode;
         response.end(JSON.stringify(data));
     },
+
     validate: (data, pattern) => {
         return Match.test(data, pattern);
     }
+    
 };

@@ -7,7 +7,7 @@ export default {
         port: "27017",
         name: ""
     },
-    test: {
+    staging: {
         host: "127.0.0.1",
         username: "corkscrew",
         password: "",

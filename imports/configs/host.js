@@ -7,7 +7,7 @@ export default {
         absolutePath: __dirname + "/..",
         debug: true
     },
-    test: {
+    staging: {
         name: "GraphQL",
         host: "",
         port: 3000,

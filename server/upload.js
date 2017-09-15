@@ -1,16 +1,9 @@
-/* 
-      *                                                            *
-    *****                                                        *****                             
-      *                                                            *
-        ==========================================================
-        ==========                                      ==========
-        ==========          API for uploads images      ==========
-        ==========                                      ==========
-        ==========================================================
-      *                                                            *
-    *****                                                        *****   
-      *                                                            *
-*/
+/*
+ * @file: upload.js
+ * @description: multiple file upload api
+ * @date: 18.09.2017
+ * @author: Lancy Goyal
+ * */
 
 import { Meteor } from 'meteor/meteor';
 import { WebApp } from 'meteor/webapp';
