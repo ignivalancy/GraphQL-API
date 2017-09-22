@@ -5,11 +5,11 @@ export default {
         username: "",
         password: "",
         port: "27017",
-        name: ""
+        name: "meteor"
     },
     staging: {
         host: "127.0.0.1",
-        username: "corkscrew",
+        username: "",
         password: "",
         port: "27017",
         name: ""

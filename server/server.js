@@ -1,5 +1,5 @@
 /*
- * @file: main.js
+ * @file: server.js
  * @description: main graphql configuration 
  * @date: 18.09.2017
  * @author: Lancy Goyal
@@ -25,7 +25,7 @@ const customBuildOptions = (request, res) => {
 };
 
 const customBuildConfig = () => {
-    return { path: '/gql', graphiql: true, graphiqlPath: '/igql' };
+    return { path: '/gql', graphiql: true, graphiqlPath: '/graphiql' };
 };
 
 createApolloServer(customBuildOptions, customBuildConfig());
