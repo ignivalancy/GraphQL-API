@@ -17,7 +17,7 @@ export const typeDefs = `
                 }
                 type Mutation {
                     createCategory (
-                      name: String
+                      name: String!
                     ): Category
                 }`;
 

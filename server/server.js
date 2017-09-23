@@ -16,10 +16,8 @@ const customBuildOptions = (request, res) => {
 
     // logger.log('*** request method', request.method, '*** request headers', request.headers);
 
-    const user = null;
-
     return {
-        context: { user }, // This context object is passed to all resolvers.
+        context: { headers: request.headers }, // This context object is passed to all resolvers.
         schema,
     };
 };
