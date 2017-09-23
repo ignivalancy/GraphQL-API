@@ -4,20 +4,20 @@ import { buildRegExp } from '../../utils/regex';
 
 export const typeDefs = `
                 type Category {
-                  _id: String!
-                  name: String!
+                  _id: String
+                  name: String
                   created_at: Date
                   taskList: [Task] # the list of Task by this category
                 }
                 type Query {
                   categories : [Category]
                   category (
-                    title: String!
+                    title: String
                   ): Category
                 }
                 type Mutation {
                     createCategory (
-                      name: String!
+                      name: String
                     ): Category
                 }`;
 

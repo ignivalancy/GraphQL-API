@@ -13,10 +13,11 @@ import hello from './gql/hello';
 import response from './gql/response';
 import categories from './gql/categories';
 import tasks from './gql/tasks';
+import indiecore from './gql/indiecore';
 // import user from './gql/user';
 // const accounts = getSchema()
 
-const { typeDefs, resolvers } = mergeModules([date, json, hello, response, categories, tasks]);
+const { typeDefs, resolvers } = mergeModules([date, json, hello, response, categories, tasks, indiecore]);
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 

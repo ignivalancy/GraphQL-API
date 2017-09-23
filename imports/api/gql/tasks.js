@@ -13,8 +13,8 @@ export const typeDefs = `
                 }
                 type Mutation {
                   createTask (
-                    title: String!
-                    cId: String!
+                    title: String
+                    cId: String
                   ): Task
                   toggleTask (
                     tId: String!
