@@ -7,14 +7,14 @@
 
 import { Meteor } from 'meteor/meteor';
 import { createApolloServer } from 'meteor/apollo';
-
+import logger from '/imports/utils/logger';
 import schema from '/imports/api/schema';
 
-// console.log(schema);
+// logger.log(schema);
 
 const customBuildOptions = (request, res) => {
 
-    console.log('*** request method', request.method, '*** request headers', request.headers);
+    // logger.log('*** request method', request.method, '*** request headers', request.headers);
 
     const user = null;
 

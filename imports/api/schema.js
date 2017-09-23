@@ -5,14 +5,18 @@ import { initAccounts } from 'meteor/nicolaslopezj:apollo-accounts'
 
 initAccounts();
 
+// **** Custom Scalar 
 import date from './gql/date';
 import json from './gql/json';
+// **** Schema
+import hello from './gql/hello';
+import response from './gql/response';
+import categories from './gql/categories';
+import tasks from './gql/tasks';
+// import user from './gql/user';
+// const accounts = getSchema()
 
-import user from './gql/user';
-
-const accounts = getSchema()
-
-const { typeDefs, resolvers } = mergeModules([date, json, user, accounts]);
+const { typeDefs, resolvers } = mergeModules([date, json, hello, response, categories, tasks]);
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
