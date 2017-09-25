@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor'
 import { Categories, Tasks } from '../../collections';
-import { buildRegExp } from '../../utils/regex';
+import regex from '../../utils/regex';
+
+const { buildRegExp } = regex;
 
 export const typeDefs = `
                 type Category {

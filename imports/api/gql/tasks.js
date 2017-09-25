@@ -1,4 +1,7 @@
 import { Categories, Tasks } from '../../collections';
+import { withFilter } from 'graphql-subscriptions';
+import pubsub from '../subscriptions';
+import logger from '../../utils/logger';
 
 export const typeDefs = `
                 type Task {
@@ -13,12 +16,15 @@ export const typeDefs = `
                 }
                 type Mutation {
                   createTask (
-                    title: String
-                    cId: String
+                    title: String!
+                    cId: String!
                   ): Task
                   toggleTask (
                     tId: String!
                   ): Task
+                }
+                type Subscription {
+                  taskAdded(cId: String!): Task
                 }
               `;
 
@@ -34,6 +40,7 @@ export const resolvers = {
             if (Categories.findOne(cId)) {
                 const data = { title, cat_id: cId, complete: false, created_by: 'admin', created_at: new Date, updated_at: new Date };
                 const _id = Tasks.insert(data);
+                pubsub.publish('taskAdded', { _id, ...data });
                 return { _id, ...data };
             }
             throw new Meteor.Error("mutation-denied", `category - not found`);
@@ -46,6 +53,18 @@ export const resolvers = {
                 return { ...task, ...mods };
             }
             throw new Meteor.Error("mutation-denied", `task - not found`);
+        }
+    },
+    Subscription: {
+        taskAdded: {
+            subscribe: () => pubsub.asyncIterator('taskAdded'),
+            // subscribe: withFilter(
+            //     () => pubsub.asyncIterator('taskAdded'),
+            //     (payload, args) => {
+            //         logger.log(payload, args);                  
+            //         return payload.taskAdded.cat_id === args.cId;
+            //     }
+            // ),
         }
     }
 };
