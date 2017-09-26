@@ -14,7 +14,7 @@ export const typeDefs = `
                 type Query {
                   categories : [Category]
                   category (
-                    title: String
+                    name: String!
                   ): Category
                 }
                 type Mutation {
@@ -29,8 +29,8 @@ export const resolvers = {
             return Categories.find({ created_by: 'admin' })
                 .fetch();
         },
-        category(root, { title }, context) {
-            return Categories.findOne({ name: buildRegExp(title), created_by: 'admin' });
+        category(root, { name }, context) {
+            return Categories.findOne({ name: buildRegExp(name), created_by: 'admin' });
         }
     },
     Mutation: {
