@@ -15,8 +15,8 @@ import { execute, subscribe } from 'graphql';
 import logger from '/imports/utils/logger';
 import schema from '/imports/api/schema';
 // logger.log(schema);
+// the pubsub mechanism
 import subscriptionManager from '/imports/api/subscriptions';
-// the pubsub mechanism of your choice, for instance:
 // - PubSub from graphql-subscriptions (not recommended for production)
 // - RedisPubSub from graphql-redis-subscriptions
 // - MQTTPubSub from graphql-mqtt-subscriptions
@@ -35,7 +35,7 @@ const customBuildConfig = {
     graphiqlPath: '/graphiql',
     graphiqlOptions: {
         endpointURL: '/gql',
-        subscriptionsEndpoint: `ws://localhost:4000/subscriptions`
+        subscriptionsEndpoint: `ws://localhost:3000/subscriptions`
     }
 };
 
@@ -47,14 +47,22 @@ const subscriptionServer = SubscriptionServer.create({
     execute,
     subscribe,
     schema,
+    // onOperation: (message, params, webSocket) => {
+    //     logger.log('onOperation');
+    // },
+    // onOperationComplete: (webSocket, opId) => {
+    //     logger.log('onOperationComplete');
+    // },
     onConnect: (connectionParams, webSocket) => {
-        logger.log('onConnect', connectionParams);
+        // logger.log('Subscription Connected', connectionParams);
+        return {
+            user: null,
+        };
     },
-    onDisconnect: (webSocket) => {
-        logger.log('onDisconnect');
-    }
+    // onDisconnect: (webSocket) => {
+    //     logger.log('Subscription Disconnected');
+    // }
 }, {
     server: WebApp.httpServer,
-    port: 4000,
     path: '/subscriptions',
-}, );
+});

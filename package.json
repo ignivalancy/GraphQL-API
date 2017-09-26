@@ -11,20 +11,20 @@
     "apollo-client": "^1.9.2",
     "babel-runtime": "^6.20.0",
     "bcrypt": "^1.0.3",
-    "body-parser": "^1.18.1",
+    "body-parser": "^1.18.2",
     "busboy": "^0.2.14",
     "express": "^4.15.4",
     "graphql": "^0.11.3",
     "graphql-loader": "^1.2.1",
     "graphql-schema-modules": "0.0.2",
     "graphql-server-express": "^1.1.2",
-    "graphql-subscriptions": "^0.5.0",
+    "graphql-subscriptions": "^0.5.1",
     "graphql-tag": "^2.4.2",
     "graphql-tools": "^1.2.2",
     "invariant": "^2.2.2",
     "lodash": "^4.17.4",
     "meteor-node-stubs": "~0.2.4",
-    "subscriptions-transport-ws": "^0.8.3"
+    "subscriptions-transport-ws": "^0.9.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.0",

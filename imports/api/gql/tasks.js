@@ -24,7 +24,7 @@ export const typeDefs = `
                   ): Task
                 }
                 type Subscription {
-                  taskAdded(cId: String!): Task
+                  taskAdded: Task
                 }
               `;
 
@@ -40,7 +40,8 @@ export const resolvers = {
             if (Categories.findOne(cId)) {
                 const data = { title, cat_id: cId, complete: false, created_by: 'admin', created_at: new Date, updated_at: new Date };
                 const _id = Tasks.insert(data);
-                pubsub.publish('taskAdded', { _id, ...data });
+                // logger.log('subscribe', pubsub);
+                pubsub.publish('taskAdded', { taskAdded: { _id, ...data } });
                 return { _id, ...data };
             }
             throw new Meteor.Error("mutation-denied", `category - not found`);
@@ -57,7 +58,10 @@ export const resolvers = {
     },
     Subscription: {
         taskAdded: {
-            subscribe: () => pubsub.asyncIterator('taskAdded'),
+            subscribe: (root, args, context) => {
+                // logger.log('subscribe', pubsub);
+                return pubsub.asyncIterator('taskAdded');
+            },
             // subscribe: withFilter(
             //     () => pubsub.asyncIterator('taskAdded'),
             //     (payload, args) => {
@@ -65,6 +69,7 @@ export const resolvers = {
             //         return payload.taskAdded.cat_id === args.cId;
             //     }
             // ),
-        }
+        },
+
     }
 };

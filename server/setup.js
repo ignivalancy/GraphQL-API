@@ -6,7 +6,8 @@
  * */
 
 import { Meteor } from 'meteor/meteor';
-
+import { WebApp } from 'meteor/webapp';
+import bodyParser from 'body-parser';
 import logger from '/imports/utils/logger';
 import db from '/imports/configs/db';
 import host from '/imports/configs/host';
@@ -21,6 +22,9 @@ const smtp_instance = smtp[instance];
 process.env.MAIL_URL = `smtp://${encodeURIComponent(smtp_instance.username)}:${encodeURIComponent(smtp_instance.password)}@${encodeURIComponent(smtp_instance.server)}:${smtp_instance.port}`;
 // process.env.PORT = host_instance.port;
 process.env.HTTP_FORWARDED_COUNT = 1;
+
+// WebApp.connectHandlers.use(bodyParser.urlencoded({ extended: true }));
+// WebApp.connectHandlers.use(bodyParser.json());
 
 // Meteor.startup(function() {
 
