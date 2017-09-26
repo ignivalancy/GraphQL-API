@@ -58,18 +58,16 @@ export const resolvers = {
     },
     Subscription: {
         taskAdded: {
-            subscribe: (root, args, context) => {
-                // logger.log('subscribe', pubsub);
-                return pubsub.asyncIterator('taskAdded');
-            },
-            // subscribe: withFilter(
-            //     () => pubsub.asyncIterator('taskAdded'),
-            //     (payload, args) => {
-            //         logger.log(payload, args);                  
-            //         return payload.taskAdded.cat_id === args.cId;
-            //     }
-            // ),
-        },
-
+            // resolve: (payload) => {
+            //     return payload.taskAdded;
+            // },
+            subscribe: withFilter(
+                () => pubsub.asyncIterator('taskAdded'),
+                (root, args, context) => {
+                    logger.log('taskAdded subscribe', args, context);
+                    return true;
+                }
+            )
+        }
     }
 };

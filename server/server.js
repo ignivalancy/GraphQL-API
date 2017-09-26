@@ -7,8 +7,8 @@
 
 import { Meteor } from 'meteor/meteor';
 import { WebApp } from 'meteor/webapp';
-
-import { createApolloServer, addCurrentUserToContext } from 'meteor/apollo';
+import cors from 'cors';
+import { createApolloServer, getUserForContext, addCurrentUserToContext } from 'meteor/apollo';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { execute, subscribe } from 'graphql';
 
@@ -31,7 +31,8 @@ const customBuildOptions = (request, res) => {
 
 const customBuildConfig = {
     path: '/gql',
-    graphiql: true,
+    configServer: expressServer => expressServer.use(cors()),
+    graphiql: true, // Meteor.isDevelopment
     graphiqlPath: '/graphiql',
     graphiqlOptions: {
         endpointURL: '/gql',
@@ -53,14 +54,17 @@ const subscriptionServer = SubscriptionServer.create({
     // onOperationComplete: (webSocket, opId) => {
     //     logger.log('onOperationComplete');
     // },
-    onConnect: (connectionParams, webSocket) => {
-        // logger.log('Subscription Connected', connectionParams);
-        return {
-            user: null,
-        };
+    onConnect: async(params, webSocket) => {
+        // logger.log('Subscription Connected', params);
+        
+        // if a login token is passed to the connection params from the client, 
+        // add the current user to the subscription context
+        const userContext = params.loginToken ?
+            await getUserForContext(params.loginToken) : { user: null };
+        return { ...userContext };
     },
     // onDisconnect: (webSocket) => {
-    //     logger.log('Subscription Disconnected');
+    //    logger.log('Subscription Disconnected');
     // }
 }, {
     server: WebApp.httpServer,
