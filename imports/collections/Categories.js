@@ -1,5 +1,3 @@
-class Categories extends Mongo.Collection {
+class Categories extends Mongo.Collection {}
 
-}
-
-export default new Categories('categories')
+export default new Categories('categories');

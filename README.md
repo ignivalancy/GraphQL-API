@@ -3,7 +3,7 @@
 GraphQL API Layer with Apollo and Meteor.
 
 ### Folder structure
-
+    .
     ├── imports                 # root folder
     │   ├── api                 #
     │   |  └── gql              # graphql query & mutation definitions

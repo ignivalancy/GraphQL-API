@@ -1,5 +1,3 @@
-class Tasks extends Mongo.Collection {
+class Tasks extends Mongo.Collection {}
 
-}
-
-export default new Tasks('tasks')
+export default new Tasks('tasks');

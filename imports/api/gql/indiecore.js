@@ -1,5 +1,5 @@
-import { Meteor } from 'meteor/meteor'
-import { HTTP } from 'meteor/http'
+import { Meteor } from 'meteor/meteor';
+import { HTTP } from 'meteor/http';
 
 export const typeDefs = `
                 # Business List
@@ -30,30 +30,27 @@ export const typeDefs = `
                 }`;
 
 export const resolvers = {
-    Query: {
-        business(root, { longitude, latitude, sort = '0', offset = '0' }, context) {
+  Query: {
+    business(root, { longitude, latitude, sort = '0', offset = '0' }, context) {
+      const { data } = HTTP.post(`http://indiecorelive.ignivastaging.com/api/v1/business/records`, {
+        data: {
+          userId: 'J2iyEjdeP5iikLy6q',
+          token: 'noy1OssDlGIUwfHVVAHlfhbQUp-nstPVWZPxUHIUfjm',
+          longitude,
+          latitude,
+          sort,
+          offset,
+        },
+      });
 
-            const { data } = HTTP.post(`http://indiecorelive.ignivastaging.com/api/v1/business/records`, {
-                data: {
-                    userId: 'J2iyEjdeP5iikLy6q',
-                    token: 'noy1OssDlGIUwfHVVAHlfhbQUp-nstPVWZPxUHIUfjm',
-                    longitude,
-                    latitude,
-                    sort,
-                    offset
-                }
-            });
+      if (data.success) return data;
 
-            if (data.success)
-                return data;
-
-            throw new Meteor.Error("query-failed", data.error_text);
-
-        }
+      throw new Meteor.Error('query-failed', data.error_text);
     },
-    Business: {
-        list({ places_list }) {
-            return places_list;
-        }
-    }
+  },
+  Business: {
+    list({ places_list }) {
+      return places_list;
+    },
+  },
 };

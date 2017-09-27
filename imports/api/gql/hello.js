@@ -6,9 +6,9 @@ export const typeDefs = `
 					}`;
 
 export const resolvers = {
-    Query: {
-        say(root, { something }, context) {
-            return `hello ${something}`;
-        }
-    }
-}
+  Query: {
+    say(root, { something }, context) {
+      return `hello ${something}`;
+    },
+  },
+};

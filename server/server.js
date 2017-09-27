@@ -37,41 +37,42 @@ const PORT = host_instance.port;
 const WS_GQL_PATH = '/subscriptions';
 
 process.env.MONGO_URL = `mongodb://${db_instance.username}:${db_instance.password}@${db_instance.host}:${db_instance.port}/${db_instance.name}`;
-process.env.MAIL_URL = `smtp://${encodeURIComponent(smtp_instance.username)}:${encodeURIComponent(smtp_instance.password)}@${encodeURIComponent(smtp_instance.server)}:${smtp_instance.port}`;
+process.env.MAIL_URL = `smtp://${encodeURIComponent(smtp_instance.username)}:${encodeURIComponent(
+  smtp_instance.password
+)}@${encodeURIComponent(smtp_instance.server)}:${smtp_instance.port}`;
 process.env.HTTP_FORWARDED_COUNT = 1;
 
 Meteor.startup(function() {
-
-    logger.info(`Listening @ ${HOST}:${PORT}`);
-
+  logger.info(`Listening @ ${HOST}:${PORT}`);
 });
 
 const subscriptionsEndpoint = `ws://${HOST}:${PORT}${WS_GQL_PATH}`;
 
 const customBuildOptions = (request, res) => {
-    // logger.log('*** request method', request.method, '*** request headers', request.headers);
-    return {
-        context: { headers: request.headers }, // This context object is passed to all resolvers.
-        schema,
-    };
+  // logger.log('*** request method', request.method, '*** request headers', request.headers);
+  return {
+    context: { headers: request.headers }, // This context object is passed to all resolvers.
+    schema,
+  };
 };
 
 const customBuildConfig = {
-    path: '/gql',
-    configServer: expressServer => expressServer.use(cors()),
-    graphiql: true, // Meteor.isDevelopment
-    graphiqlPath: '/graphiql',
-    graphiqlOptions: {
-        endpointURL: '/gql',
-        subscriptionsEndpoint
-    }
+  path: '/gql',
+  configServer: expressServer => expressServer.use(cors()),
+  graphiql: true, // Meteor.isDevelopment
+  graphiqlPath: '/graphiql',
+  graphiqlOptions: {
+    endpointURL: '/gql',
+    subscriptionsEndpoint,
+  },
 };
 
 // setup graphql server
 createApolloServer(customBuildOptions, customBuildConfig);
 
 // setup subscription server
-const subscriptionServer = SubscriptionServer.create({
+const subscriptionServer = SubscriptionServer.create(
+  {
     execute,
     subscribe,
     schema,
@@ -81,19 +82,22 @@ const subscriptionServer = SubscriptionServer.create({
     // onOperationComplete: (webSocket, opId) => {
     //     logger.log('onOperationComplete');
     // },
-    onConnect: async(params, webSocket) => {
-        // logger.log('Subscription Connected', params);
-        
-        // if a login token is passed to the connection params from the client, 
-        // add the current user to the subscription context
-        const userContext = params.loginToken ?
-            await getUserForContext(params.loginToken) : { user: null };
-        return { ...userContext };
+    onConnect: async (params, webSocket) => {
+      // logger.log('Subscription Connected', params);
+
+      // if a login token is passed to the connection params from the client,
+      // add the current user to the subscription context
+      const userContext = params.loginToken
+        ? await getUserForContext(params.loginToken)
+        : { user: null };
+      return { ...userContext };
     },
     // onDisconnect: (webSocket) => {
     //    logger.log('Subscription Disconnected');
     // }
-}, {
+  },
+  {
     server: WebApp.httpServer,
-    path: WS_GQL_PATH
-});
+    path: WS_GQL_PATH,
+  }
+);
