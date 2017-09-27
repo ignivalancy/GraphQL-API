@@ -1,25 +1,25 @@
 export default {
 
     dev: {
-        host: "127.0.0.1",
-        username: "",
-        password: "",
+        host: "192.168.0.235",
+        username: "konnect",
+        password: "kon334IGKL#",
         port: "27017",
-        name: "meteor"
+        name: "konnect"
     },
     staging: {
-        host: "127.0.0.1",
-        username: "",
-        password: "",
+        host: "192.168.0.235",
+        username: "konnect",
+        password: "kon334IGKL#",
         port: "27017",
-        name: ""
+        name: "konnect"
     },
     live: {
-        host: "127.0.0.1",
-        username: "",
-        password: "",
+        host: "192.168.0.235",
+        username: "konnect",
+        password: "kon334IGKL#",
         port: "27017",
-        name: ""
+        name: "konnect"
     }
 
 };

@@ -8,6 +8,7 @@
 import { Meteor } from 'meteor/meteor';
 import { WebApp } from 'meteor/webapp';
 import cors from 'cors';
+
 import { createApolloServer, getUserForContext, addCurrentUserToContext } from 'meteor/apollo';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 import { execute, subscribe } from 'graphql';
@@ -15,11 +16,37 @@ import { execute, subscribe } from 'graphql';
 import logger from '/imports/utils/logger';
 import schema from '/imports/api/schema';
 // logger.log(schema);
+
 // the pubsub mechanism
-import subscriptionManager from '/imports/api/subscriptions';
+// import subscriptionManager from '/imports/api/subscriptions';
 // - PubSub from graphql-subscriptions (not recommended for production)
 // - RedisPubSub from graphql-redis-subscriptions
 // - MQTTPubSub from graphql-mqtt-subscriptions
+
+import db from '/imports/configs/db';
+import host from '/imports/configs/host';
+import smtp from '/imports/configs/smtp';
+
+const instance = Meteor.isDevelopment ? 'dev' : 'staging';
+const db_instance = db[instance];
+const host_instance = host[instance];
+const smtp_instance = smtp[instance];
+
+const HOST = host_instance.host;
+const PORT = host_instance.port;
+const WS_GQL_PATH = '/subscriptions';
+
+process.env.MONGO_URL = `mongodb://${db_instance.username}:${db_instance.password}@${db_instance.host}:${db_instance.port}/${db_instance.name}`;
+process.env.MAIL_URL = `smtp://${encodeURIComponent(smtp_instance.username)}:${encodeURIComponent(smtp_instance.password)}@${encodeURIComponent(smtp_instance.server)}:${smtp_instance.port}`;
+process.env.HTTP_FORWARDED_COUNT = 1;
+
+Meteor.startup(function() {
+
+    logger.info(`Listening @ ${HOST}:${PORT}`);
+
+});
+
+const subscriptionsEndpoint = `ws://${HOST}:${PORT}${WS_GQL_PATH}`;
 
 const customBuildOptions = (request, res) => {
     // logger.log('*** request method', request.method, '*** request headers', request.headers);
@@ -36,7 +63,7 @@ const customBuildConfig = {
     graphiqlPath: '/graphiql',
     graphiqlOptions: {
         endpointURL: '/gql',
-        subscriptionsEndpoint: `ws://localhost:3000/subscriptions`
+        subscriptionsEndpoint
     }
 };
 
@@ -68,5 +95,5 @@ const subscriptionServer = SubscriptionServer.create({
     // }
 }, {
     server: WebApp.httpServer,
-    path: '/subscriptions',
+    path: WS_GQL_PATH
 });

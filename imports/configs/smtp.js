@@ -8,9 +8,9 @@ export default {
         mailFrom: "GraphQL"
     },
     staging: {
-        username: '',
+        username: 'e.life096@gmail.com',
         password: 'unitedcollege',
-        port: 25,
+        port: 587,
         server: 'smtp.gmail.com',
         mailFrom: "GraphQL"
     },
